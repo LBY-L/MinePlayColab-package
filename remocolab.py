@@ -232,7 +232,7 @@ def _setupSSHDImpl(public_key, tunnel, ngrok_token, ngrok_region, mount_gdrive_t
     msg += "✂️"*24 + "\n"
   return msg
 
-def _setupSSHDMain(public_key, tunnel, ngrok_region, check_gpu_available, mount_gdrive_to, mount_gdrive_from, is_VNC):
+def _setupSSHDMain(public_key, tunnel, ngrok_region, ngrok_token, check_gpu_available, mount_gdrive_to, mount_gdrive_from, is_VNC):
   if check_gpu_available and not _check_gpu_available():
     return (False, "")
 
@@ -262,8 +262,6 @@ def _setupSSHDMain(public_key, tunnel, ngrok_region, check_gpu_available, mount_
         print("Please specifiy the existing directory path in your Google drive like 'mount_gdrive_from = \"My Drive/somedir\"'")
         return (False, "")
 
-  ngrok_token = None
-
   if tunnel == "ngrok":
     print("It seems Google is blocking ngrok.")
     print("If you got error 'kex_exchange_identification: Connection closed by remote host' when you login to ssh, you need to use Argo Tunnel instead of ngrok.")
@@ -272,8 +270,6 @@ def _setupSSHDMain(public_key, tunnel, ngrok_region, check_gpu_available, mount_
     print("---")
     print("Copy&paste your tunnel authtoken from https://dashboard.ngrok.com/auth")
     print("(You need to sign up for ngrok and login,)")
-    #Set your ngrok Authtoken.
-    ngrok_token = getpass.getpass()
 
     if not ngrok_region:
       print("Select your ngrok region:")
@@ -417,8 +413,8 @@ subprocess.run(
                     universal_newlines = True)
   return r.stdout
 
-def setupVNC(ngrok_region = None, check_gpu_available = True, tunnel = None, mount_gdrive_to = None, mount_gdrive_from = None, public_key = None):
-  stat, msg = _setupSSHDMain(public_key, tunnel, ngrok_region, check_gpu_available, mount_gdrive_to, mount_gdrive_from, True)
+def setupVNC(ngrok_region = None, ngrok_token = None, check_gpu_available = True, tunnel = None, mount_gdrive_to = None, mount_gdrive_from = None, public_key = None):
+  stat, msg = _setupSSHDMain(public_key, tunnel, ngrok_region, ngrok_token, check_gpu_available, mount_gdrive_to, mount_gdrive_from, True)
   if stat:
     msg += _setupVNC()
 
