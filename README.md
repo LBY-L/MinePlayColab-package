@@ -1,3 +1,3 @@
 # MinePlayColab-package
-### Here is te site which i put the modified lib of remote colab to use it in the principal project
+### Here is the site which i put the modified lib of remotecolab to use it in the principal project
 ### Credits: demotomohiro
