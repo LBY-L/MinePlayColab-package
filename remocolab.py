@@ -236,21 +236,9 @@ def _setupSSHDMain(public_key, tunnel, ngrok_region, ngrok_token, check_gpu_avai
   if check_gpu_available and not _check_gpu_available():
     return (False, "")
 
-  print("---")
-  if tunnel == None:
-    print("As ngrok doesn't work on colab for long time, default tunnel method has been changed to Argo tunnel.")
-    print("Please read this for more details:")
-    print("https://github.com/demotomohiro/remocolab/blob/master/README.md")
-    tunnel = "argotunnel"
-
   avail_tunnels = {"ngrok", "argotunnel"}
   if tunnel not in avail_tunnels:
     raise RuntimeError("tunnel argument must be one of " + str(avail_tunnels))
-
-  if mount_gdrive_to:
-    if not pathlib.Path('/content/drive').exists():
-      print("Please click the folder icon on left side of Google Colab and Mount Drive.")
-      return (False, "")
 
     if mount_gdrive_from:
       try:
@@ -261,26 +249,6 @@ def _setupSSHDMain(public_key, tunnel, ngrok_region, ngrok_token, check_gpu_avai
       except FileNotFoundError:
         print("Please specifiy the existing directory path in your Google drive like 'mount_gdrive_from = \"My Drive/somedir\"'")
         return (False, "")
-
-  if tunnel == "ngrok":
-    print("It seems Google is blocking ngrok.")
-    print("If you got error 'kex_exchange_identification: Connection closed by remote host' when you login to ssh, you need to use Argo Tunnel instead of ngrok.")
-    print("Please read this for more details:")
-    print("https://github.com/demotomohiro/remocolab/blob/master/README.md")
-    print("---")
-    print("Copy&paste your tunnel authtoken from https://dashboard.ngrok.com/auth")
-    print("(You need to sign up for ngrok and login,)")
-
-    if not ngrok_region:
-      print("Select your ngrok region:")
-      print("us - United States (Ohio)")
-      print("eu - Europe (Frankfurt)")
-      print("ap - Asia/Pacific (Singapore)")
-      print("au - Australia (Sydney)")
-      print("sa - South America (Sao Paulo)")
-      print("jp - Japan (Tokyo)")
-      print("in - India (Mumbai)")
-      ngrok_region = region = input()
 
   return (True, _setupSSHDImpl(public_key, tunnel, ngrok_token, ngrok_region, mount_gdrive_to, mount_gdrive_from, is_VNC))
 
@@ -383,10 +351,10 @@ import subprocess, secrets, pathlib
 
 vnc_passwd = secrets.token_urlsafe()[:8]
 vnc_viewonly_passwd = secrets.token_urlsafe()[:8]
-print("✂️"*24)
+print("-"*5)
 print("VNC password: {}".format(vnc_passwd))
 print("VNC view only password: {}".format(vnc_viewonly_passwd))
-print("✂️"*24)
+print("-"*5)
 vncpasswd_input = "{0}\\n{1}".format(vnc_passwd, vnc_viewonly_passwd)
 vnc_user_dir = pathlib.Path.home().joinpath(".vnc")
 vnc_user_dir.mkdir(exist_ok=True)
