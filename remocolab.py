@@ -219,11 +219,13 @@ def _setupSSHDImpl(public_key, tunnel, ngrok_token, ngrok_region, mount_gdrive_t
     if hostname == None:
       raise RuntimeError("Failed to get user hostname from cloudflared")
     ssh_common_options += " -oProxyCommand=\"cloudflared access ssh --hostname %h\""
-  clear_output()
   msg += ""
+  clear_output()
   if is_VNC:
+    from IPython.core.display import display, HTML
     msg += "Execute following command on your local machine and login before running TurboVNC viewer:\n"
     msg += "-"*5 + "\n"
+    display(HTML('<hr /><p>&nbsp;</p>')
     msg += f"ssh {ssh_common_options} -L 5901:localhost:5901 {user_name}@{hostname}\n"
   else:
     msg += "Command to connect to the ssh server:\n"
