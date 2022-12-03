@@ -219,18 +219,17 @@ def _setupSSHDImpl(public_key, tunnel, ngrok_token, ngrok_region, mount_gdrive_t
     if hostname == None:
       raise RuntimeError("Failed to get user hostname from cloudflared")
     ssh_common_options += " -oProxyCommand=\"cloudflared access ssh --hostname %h\""
+  clear_output()
   msg += ""
   if is_VNC:
-    from IPython.core.display import display, HTML
     msg += "Execute following command on your local machine and login before running TurboVNC viewer:\n"
-    display(HTML('<hr /><p>&nbsp;</p>')
+    msg += "-"*5 + "\n"
     msg += f"ssh {ssh_common_options} -L 5901:localhost:5901 {user_name}@{hostname}\n"
   else:
-    from IPython.core.display import display, HTML
     msg += "Command to connect to the ssh server:\n"
-    display(HTML('<hr /><p>&nbsp;</p>')
+    msg += "-"*5 + "\n"
     msg += f"ssh {ssh_common_options} {user_name}@{hostname}\n"
-    display(HTML('<hr /><p>&nbsp;</p>')
+    msg += "-"*5 + "\n"
   return msg
 
 def _setupSSHDMain(public_key, tunnel, ngrok_region, ngrok_token, check_gpu_available, mount_gdrive_to, mount_gdrive_from, is_VNC):
@@ -351,18 +350,16 @@ no-x11-tcp-connections
   if gpu_name != None:
     _setup_nvidia_gl()
 
-  clear_output()
   vncrun_py = tempfile.gettempdir() / pathlib.Path("vncrun.py")
   vncrun_py.write_text("""\
 import subprocess, secrets, pathlib
-from IPython.core.display import display, HTML
 
 vnc_passwd = secrets.token_urlsafe()[:8]
 vnc_viewonly_passwd = secrets.token_urlsafe()[:8]
-display(HTML('<hr /><p>&nbsp;</p>')
+print("-"*5)
 print("VNC password: {}".format(vnc_passwd))
 print("VNC view only password: {}".format(vnc_viewonly_passwd))
-display(HTML('<hr /><p>&nbsp;</p>')
+print("-"*5)
 vncpasswd_input = "{0}\\n{1}".format(vnc_passwd, vnc_viewonly_passwd)
 vnc_user_dir = pathlib.Path.home().joinpath(".vnc")
 vnc_user_dir.mkdir(exist_ok=True)
