@@ -2,6 +2,7 @@ import apt, apt.debfile
 import pathlib, stat, shutil, urllib.request, subprocess, getpass, time, tempfile
 import secrets, json, re
 import IPython.utils.io
+from IPython.display import clear_output
 import ipywidgets
 import pyngrok.ngrok, pyngrok.conf
 
@@ -158,7 +159,7 @@ def _setupSSHDImpl(public_key, tunnel, ngrok_token, ngrok_region, mount_gdrive_t
                 check = True,
                 universal_newlines = True)
   msg += ret.stdout + "\n"
-
+  clear_output()
   root_password = secrets.token_urlsafe()
   user_password = secrets.token_urlsafe()
   user_name = "colab"
