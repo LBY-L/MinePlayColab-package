@@ -159,7 +159,6 @@ def _setupSSHDImpl(public_key, tunnel, ngrok_token, ngrok_region, mount_gdrive_t
                 check = True,
                 universal_newlines = True)
   msg += ret.stdout + "\n"
-  clear_output()
   root_password = secrets.token_urlsafe()
   user_password = secrets.token_urlsafe()
   user_name = "colab"
@@ -220,8 +219,8 @@ def _setupSSHDImpl(public_key, tunnel, ngrok_token, ngrok_region, mount_gdrive_t
     if hostname == None:
       raise RuntimeError("Failed to get user hostname from cloudflared")
     ssh_common_options += " -oProxyCommand=\"cloudflared access ssh --hostname %h\""
-
-  msg += "---\n"
+  clear_output()
+  msg += ""
   if is_VNC:
     msg += "Execute following command on your local machine and login before running TurboVNC viewer:\n"
     msg += "-"*5 + "\n"
