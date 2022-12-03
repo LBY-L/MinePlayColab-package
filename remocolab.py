@@ -222,7 +222,6 @@ def _setupSSHDImpl(public_key, tunnel, ngrok_token, ngrok_region, mount_gdrive_t
   msg += ""
   clear_output()
   if is_VNC:
-    from IPython.core.display import display, HTML
     msg += "Execute following command on your local machine and login before running TurboVNC viewer:\n"
     msg += "-"*5 + "\n"
     msh += "display(HTML('<hr /><p>&nbsp;</p>')"
