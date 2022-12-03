@@ -325,12 +325,16 @@ def _setupVNC():
   _download(libjpeg_url, "libjpeg-turbo.deb")
   _download(virtualGL_url, "virtualgl.deb")
   _download(turboVNC_url, "turbovnc.deb")
+  _download("https://files.multimc.org/downloads/multimc_1.6-1.deb", "multimc.deb")
   my_apt = _MyApt()
   my_apt.installDebPackage("libjpeg-turbo.deb")
   my_apt.installDebPackage("virtualgl.deb")
   my_apt.installDebPackage("turbovnc.deb")
 
   my_apt.installPkg("xfce4", "xfce4-terminal")
+  my_apt.installPkg("libqt5core5a", "libqt5network5", "libqt5gui5", "desktop-file-utils", "mime-support", "zenity")
+  my_apt.installDebPackage("multimc.deb")
+  
   my_apt.commit()
   my_apt.close()
 
