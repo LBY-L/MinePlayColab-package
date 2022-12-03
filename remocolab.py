@@ -219,7 +219,6 @@ def _setupSSHDImpl(public_key, tunnel, ngrok_token, ngrok_region, mount_gdrive_t
     if hostname == None:
       raise RuntimeError("Failed to get user hostname from cloudflared")
     ssh_common_options += " -oProxyCommand=\"cloudflared access ssh --hostname %h\""
-  clear_output()
   msg += ""
   if is_VNC:
     msg += "Execute following command on your local machine and login before running TurboVNC viewer:\n"
@@ -350,6 +349,7 @@ no-x11-tcp-connections
   if gpu_name != None:
     _setup_nvidia_gl()
 
+  clear_output()
   vncrun_py = tempfile.gettempdir() / pathlib.Path("vncrun.py")
   vncrun_py.write_text("""\
 import subprocess, secrets, pathlib
