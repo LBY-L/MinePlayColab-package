@@ -221,9 +221,9 @@ def _setupSSHDImpl(public_key, tunnel, ngrok_token, ngrok_region, mount_gdrive_t
     ssh_common_options += " -oProxyCommand=\"cloudflared access ssh --hostname %h\""
   msg += ""
   if is_VNC:
-    from IPython.core.display import display, HTML
+    #from IPython.core.display import display, HTML
     msg += "Execute following command on your local machine and login before running TurboVNC viewer:\n"
-    display(HTML('<hr /><p>&nbsp;</p>')
+    #display(HTML('<hr /><p>&nbsp;</p>')
     msg += f"ssh {ssh_common_options} -L 5901:localhost:5901 {user_name}@{hostname}\n"
   else:
     from IPython.core.display import display, HTML
