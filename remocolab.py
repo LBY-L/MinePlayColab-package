@@ -227,7 +227,7 @@ def _setupSSHDImpl(public_key, tunnel, ngrok_token, ngrok_region, mount_gdrive_t
     msg += "Execute following command on your local machine and login before running TurboVNC viewer:\n"
     msg += "-"*5 + "\n"
     msg += f"ssh {ssh_common_options} -L 5901:localhost:5901 {user_name}@{hostname}\n"
-    msg += display(HTML("<hr /><p>&nbsp;</p>") + "\n"
+    msg += f"display(HTML('<hr /><p>&nbsp;</p>')\n"
   else:
     msg += "Command to connect to the ssh server:\n"
     msg += "-"*5 + "\n"
