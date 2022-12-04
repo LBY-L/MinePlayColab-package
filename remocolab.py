@@ -334,6 +334,7 @@ def _setupVNC():
 
   my_apt.installPkg("xfce4", "xfce4-terminal")
   my_apt.installPkg("libqt5core5a", "libqt5network5", "libqt5gui5", "desktop-file-utils", "mime-support", "zenity")
+  my_apt.installPkg("openjdk-17-jdk-headless", "openjdk-17-jdk", "openjdk-8-jdk-headless", "openjdk-8-jdk")
   my_apt.installDebPackage("multimc_1.6-1.deb")
   
   my_apt.commit()
