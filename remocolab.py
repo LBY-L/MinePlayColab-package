@@ -221,19 +221,16 @@ def _setupSSHDImpl(public_key, tunnel, ngrok_token, ngrok_region, mount_gdrive_t
       raise RuntimeError("Failed to get user hostname from cloudflared")
     ssh_common_options += " -oProxyCommand=\"cloudflared access ssh --hostname %h\""
   msg += ""
-  clear_output()
-  from IPython.core.display import display, HTML
   if is_VNC:
     msg += "Execute following command on your local machine and login before running TurboVNC viewer:\n"
     msg += "-"*5 + "\n"
     msg += f"ssh {ssh_common_options} -L 5901:localhost:5901 {user_name}@{hostname}\n"
-    display(HTML('<hr /><p>&nbsp;</p>')
   else:
     msg += "Command to connect to the ssh server:\n"
     msg += "-"*5 + "\n"
     msg += f"ssh {ssh_common_options} {user_name}@{hostname}\n"
     msg += "-"*5 + "\n"
-  #return msg
+  return msg
 
 def _setupSSHDMain(public_key, tunnel, ngrok_region, ngrok_token, check_gpu_available, mount_gdrive_to, mount_gdrive_from, is_VNC):
   if check_gpu_available and not _check_gpu_available():
@@ -324,7 +321,7 @@ def _setupVNC():
   libjpeg_url = "https://github.com/demotomohiro/turbovnc/releases/download/2.2.5/libjpeg-turbo-official_{0}_amd64.deb".format(libjpeg_ver)
   virtualGL_url = "https://github.com/demotomohiro/turbovnc/releases/download/2.2.5/virtualgl_{0}_amd64.deb".format(virtualGL_ver)
   turboVNC_url = "https://github.com/demotomohiro/turbovnc/releases/download/2.2.5/turbovnc_{0}_amd64.deb".format(turboVNC_ver)
-
+  
   _download(libjpeg_url, "libjpeg-turbo.deb")
   _download(virtualGL_url, "virtualgl.deb")
   _download(turboVNC_url, "turbovnc.deb")
@@ -352,7 +349,7 @@ no-x11-tcp-connections
   gpu_name = _get_gpu_name()
   if gpu_name != None:
     _setup_nvidia_gl()
-
+  clear_output()
   vncrun_py = tempfile.gettempdir() / pathlib.Path("vncrun.py")
   vncrun_py.write_text("""\
 import subprocess, secrets, pathlib
